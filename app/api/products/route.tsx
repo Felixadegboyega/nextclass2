@@ -11,6 +11,6 @@ export const GET = async () => {
   return Response.json({ products })
 }
 
-export const POST = (request: Request, response: Response) => {}
+export const POST = (request: Request) => {}
 
 export const DELETE = () => {}
