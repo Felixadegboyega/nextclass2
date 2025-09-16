@@ -6,6 +6,7 @@ export const typeDefs = gql`
 		user: User
 		posts: [Post!]
 		post(id:ID!): Post
+		product(_id:ID!): Product
 	}
 
 	type User {
@@ -30,8 +31,17 @@ export const typeDefs = gql`
 		REVERSED
 	}
 
+	type Product {
+		title: String!
+		description: String!
+		price: Float!
+		_id: String
+	}
+
 	type Mutation {
 		addPost(title:String!, description:String!): Post
 		deletePost(id:ID!): Post
+		addProduct(title:String!, description:String!, price:Float!): Product
+		editProduct(title:String!, description:String!, price:Float!, _id:String!): Product
 	}
 `;
