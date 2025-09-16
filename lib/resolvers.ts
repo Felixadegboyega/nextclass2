@@ -1,4 +1,6 @@
 import "server-only"
+import dbConnect from "./dbConnect";
+import ProductModel from "@/models/Product";
 
 const posts = [
 	{
@@ -33,6 +35,11 @@ export const resolvers = {
 
 		post: (_parent: null, { id }: { id: number }) => {
 			return posts.find(post => post.id == id);
+		},
+
+		product: async (_parent: null, { _id }: { _id: string }) => {
+			await dbConnect();
+			return await ProductModel.findById(_id);
 		}
 	},
 
@@ -51,6 +58,35 @@ export const resolvers = {
 			const post = posts[postIndex];
 			posts.splice(postIndex, 1);
 			return post;
-		}
+		},
+
+		addProduct: async (_parent: null, product: {
+			title: string,
+			description: string,
+			price: number,
+		}) => {
+			await dbConnect();
+			const newProduct = await ProductModel.create(product);
+			return newProduct
+		},
+
+
+		editProduct: async (_parent: null, { _id, description, price, title }: {
+			title: string,
+			description: string,
+			price: number,
+			_id: string
+		}) => {
+			await dbConnect()
+			const product = await ProductModel.findByIdAndUpdate(_id, {
+				title,
+				description,
+				price,
+			})
+
+			return product
+		},
+
+
 	}
 };
